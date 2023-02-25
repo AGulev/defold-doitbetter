@@ -1,0 +1,105 @@
+- name: do_it_better
+  type: table
+  desc: Functions and constants for interacting with Do It Better
+  members:
+
+  - name: initialize
+    type: function
+    desc: Initialize the SDK.
+    parameters:
+      - name: key
+        type: string
+        desc: Your SDK key.
+#*****************************************************************************************************
+
+  - name: set_callback
+    type: function
+    desc: Sets a callback function for receiving events from the SDK. Call `do_it_better.set_callback(nil)`
+          to remove callback
+
+    parameters:
+    - name: callback
+      type: function
+      desc: Callback function that is executed on any event in the SDK.
+      parameters:
+        - name: self
+          type: object
+          desc: The calling script instance
+
+        - name: message_id
+          type: string
+          desc: One of message types
+               
+               - `do_it_better.MSG_SANDBOX_STATUS`
+
+               - `do_it_better.MSG_ENABLE_STATUS`
+
+        - name: message
+          type: table
+          desc: A table holding the data
+          fields:
+            - name: event
+              type: number
+              desc: One of event types `do_it_better.EVENT_SUCCESS`, `do_it_better.EVENT_JSON_ERROR`
+            - name: error
+              type: string
+              optional: true
+              desc: The error message (if an error occurred or `nil` otherwise)
+            - name: status
+              type: string
+              optional: true
+              desc: Current sanbox status, one of `do_it_better.STATUS_SANDBOX`, `do_it_better.STATUS_PRODUCTION`, `do_it_better.STATUS_UNKNOWN`
+
+#*****************************************************************************************************
+
+  - name: mark_as_development
+    type: function
+    desc: Mark current session as development session
+
+#*****************************************************************************************************
+
+  - name: set_logging_enabled
+    type: function
+    desc: Turn on SDK logging
+
+    parameters:
+    - name: enabled
+      type: boolean
+      desc: Turn on/off logging
+
+#*****************************************************************************************************
+
+  - name: send_event
+    type: function
+    desc: Track an event
+
+    parameters:
+    - name: event_name
+      type: string
+      desc: The name of the event
+    
+    - name: parameters
+      type: table
+      desc: Parameters in a Lua table (in a format which can be converted to JSON)
+
+    - name: deduplicate_id
+      type: string
+      desc: UUID v4
+
+#*****************************************************************************************************
+
+  - name: MSG_SANDBOX_STATUS
+    type: number
+
+  - name: MSG_ENABLE_STATUS
+    type: number
+
+#*****************************************************************************************************
+
+  - name: EVENT_SUCCESS
+    type: number
+
+  - name: EVENT_JSON_ERROR
+    type: number
+
+#*****************************************************************************************************

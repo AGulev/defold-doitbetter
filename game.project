@@ -1,0 +1,27 @@
+[bootstrap]
+main_collection = /example/example.collectionc
+
+[script]
+shared_state = 1
+
+[display]
+width = 960
+height = 640
+
+[project]
+title = DoItBetter
+dependencies = 
+
+[library]
+include_dirs = do_it_better
+
+[android]
+package = tech.doitbetter.debug.app
+minimum_sdk_version = 21
+
+[ios]
+bundle_identifier = tech.doitbetter.debug.app
+
+[do_it_better]
+key = YWQTsJnwE6BnOC2RX4FPEbmeV3Bm5IvA
+

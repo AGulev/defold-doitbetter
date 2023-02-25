@@ -1,0 +1,45 @@
+local doitbetter_events = require("do_it_better.events")
+
+local function report_error(message)
+    pprint("Errorr in do_it_better:", message)
+    if message.event == do_it_better.EVENT_JSON_ERROR then
+        print("Error when create Json in Defold SDK wrapper")
+    end
+end
+
+local function do_it_better_callback(self, message_id, message)
+    if message_id == do_it_better.MSG_SANDBOX_STATUS then
+        if message.event == do_it_better.EVENT_SUCCESS then
+            pprint("MSG_SANDBOX_STATUS", message)
+            doitbetter_events.track_purchase(10, "USD")
+            if message.status == do_it_better.STATUS_SANDBOX then
+                print("Current status STATUS_SANDBOX")
+            elseif message.status == do_it_better.STATUS_PRODUCTION then
+                print("Current status STATUS_PRODUCTION")
+            elseif message.status == do_it_better.STATUS_UNKNOWN then
+                print("Current status STATUS_UNKNOWN")
+            end 
+        else
+            report_error(message)
+        end
+    elseif message_id == do_it_better.MSG_ENABLE_STATUS then
+        if message.event == do_it_better.EVENT_SUCCESS then
+            pprint("MSG_ENABLE_STATUS", message)
+            if message.enabled then
+                -- do your logic
+            end
+        else
+            report_error(message)
+        end
+    end
+end
+
+function init(self)
+    if do_it_better then
+        pprint(do_it_better) -- all methods and constants
+        do_it_better.set_callback(do_it_better_callback)
+        do_it_better.mark_as_development()
+        do_it_better.set_logging_enabled(true)
+        do_it_better.initialize(sys.get_config_string("do_it_better.key"))
+    end
+end
